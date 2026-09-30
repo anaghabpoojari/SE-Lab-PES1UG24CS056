@@ -1,5 +1,3 @@
-
-
 Today 8:28 AM
 SETAPESU26/56_tug_of_war this is the link of repo that i should be working on. the readme file has all details and also the deliverables that i should be submitting. how to do this. guide from beginning where and how to do it and go to next step only after i have finished the previous one 
 👍
@@ -79,121 +77,192 @@ If it says something like "git is not recognized", that's fine too. Tell me exac
 
 Don't clone the repository yet. We'll do that after we confirm Git is available.
 
+Perfect. Let's continue.
 
-Step 4.4 — Display the timer on the screen
-Now we'll make the 30-second timer visible, and show SUDDEN DEATH when it reaches zero.
+STEP 3 — Open the project in VS Code
 
-Still in game/game_engine.py, go to the render() method.
+Now we want to work inside the cloned repository, but still don't change any code.
 
-Find this existing section:
+3.1 Open the project
 
-inst_surf = self.font_small.render(
-    "Alternate [A] and [D] keys rapidly to pull!", True, (210, 210, 210)
-)
-screen.blit(inst_surf, (self.width // 2 - inst_surf.get_width() // 2, 40))
-Immediately after it, add:
+In Command Prompt, make sure you're inside:
 
-        now = pygame.time.get_ticks()
-        elapsed_seconds = (now - self.match_start_time) / 1000
-        remaining_seconds = max(0, self.match_duration - int(elapsed_seconds))
+D:\Project\56_tug_of_war
 
-        if self.sudden_death:
-            timer_text = "SUDDEN DEATH!"
-            timer_color = (255, 80, 80)
-        else:
-            timer_text = f"TIME: {remaining_seconds}s"
-            timer_color = (240, 240, 240)
+Then run:
 
-        timer_surf = self.font_big.render(timer_text, True, timer_color)
-        screen.blit(
-            timer_surf,
-            (self.width // 2 - timer_surf.get_width() // 2, 75)
-        )
-So the top of your game should now show something like:
+code .
 
-Alternate [A] and [D] keys rapidly to pull!
+This should open the entire project in VS Code.
 
-             TIME: 27s
-and after 30 seconds:
+If code . doesn't work, open VS Code normally and choose:
 
-Alternate [A] and [D] keys rapidly to pull!
+File → Open Folder → D:\Project\56_tug_of_war
 
-          SUDDEN DEATH!
-Add only this part for now. Then tell me done.
+3.2 Check the files
 
+In the VS Code Explorer on the left, you should see the repository files/folders.
 
-done
+Most importantly, look for:
 
-Step 4.5 — Reset the timer when a new match starts
-We need to fix one important thing: when the player presses R, the rope resets, but the timer currently would continue from the old match.
+56_tug_of_war
+│
+├── README.md
+├── main.py
+└── game/
 
-In game_engine.py, find your reset() method. You currently have something like:
+Do not edit README.md or any Python file.
 
-def reset(self):
-    self.rope.reset()
-    self.last_key = None
-    self.is_pull_locked = False
-    self.winner = None
-    self.game_state = "PLAYING"
-    self.last_computer_pull = pygame.time.get_ticks()
-Add these two lines at the end:
+3.3 Open the README
 
-    self.match_start_time = pygame.time.get_ticks()
-    self.sudden_death = False
-So the complete method should end like this:
+Click:
 
-def reset(self):
-    self.rope.reset()
-    self.last_key = None
-    self.is_pull_locked = False
-    self.winner = None
-    self.game_state = "PLAYING"
-    self.last_computer_pull = pygame.time.get_ticks()
-    self.match_start_time = pygame.time.get_ticks()
-    self.sudden_death = False
-Then test Task 4
+README.md
+
+We're going to use the README as the project's specification.
+
+At this stage, just make sure you can see the README in VS Code.
+
+3.4 Open the VS Code terminal
+
+In VS Code:
+
+Terminal → New Terminal
+
+A terminal should appear at the bottom.
+
+Check the current directory with:
+
+cd
+
+It should show something ending in:
+
+56_tug_of_war
+3.5 Check Python
+
+In that VS Code terminal, run:
+
+python --version
+
+Then:
+
+pip --version
+
+We need to make sure Python is available before installing the project's dependency.
+
+Stop here
+
+Don't run the game yet.
+
+Send me the output of:
+
+python --version
+
+and
+
+pip --version
+
+Then we'll do STEP 4 — create the Python environment and install Pygame.
+
+next
+
+Great. Let's set up the Python environment now.
+
+STEP 4 — Create a virtual environment and install Pygame
+
+We want the project to have its own Python environment, rather than installing packages globally.
+
+Make sure the VS Code terminal is inside:
+
+D:\Project\56_tug_of_war
+4.1 Create the virtual environment
+
 Run:
 
-python main.py
-Check these three things:
+python -m venv .venv
 
-Timer starts around 30s.
+This creates:
 
-It counts down to 0.
+56_tug_of_war/
+└── .venv/
 
-At 0, it changes to SUDDEN DEATH!.
+You normally won't need to touch anything inside .venv.
 
-Press R after a game ends and confirm the timer goes back to ~30s.
+4.2 Activate it
 
-Don't modify anything else yet. Tell me what happens when you test it.
+Because you're on Windows, run:
 
+.venv\Scripts\activate
 
-done everythign works fine 
-thats it no
+If successful, your terminal should now start with something like:
 
-Yes — the coding tasks are complete. 🎉
+(.venv) D:\Project\56_tug_of_war>
 
-You have now implemented all four:
+The important part is:
 
-✅ Input lock deadlock fix — A/D alternation no longer freezes the player.
+(.venv)
+4.3 Upgrade pip
 
-✅ Dynamic computer difficulty — Computer becomes more aggressive as the player approaches the goal.
+Run:
 
-✅ Rope tension + pull animations — Rope movement/sag and player leaning respond to the match.
+python -m pip install --upgrade pip
 
-✅ Match timer + sudden death — 30-second timer, sudden-death mode, and timer reset on replay.
+Wait for it to finish.
 
-What remains
-The implementation is done, but according to the assignment, you still need the deliverables:
+Good. Now we start the actual coding. 👍
 
-🎥 10-second BEFORE video — original broken behavior.
+STEP 7 — Locate the Task 1 bug
 
-🎥 10-second AFTER video — fixed game + new features.
+We're going to inspect the code before changing it.
 
-🔗 Chat/LLM conversation link — your complete ChatGPT conversation/history.
+7.1 Find game_engine.py
 
-If you've already recorded the BEFORE video, the next practical step is to record the AFTER video showing the completed game.
+In VS Code's Explorer, expand:
 
-So yes: no more coding is required unless you want to improve something.
+game
 
+Look for:
 
+game_engine.py
+
+Open it.
+
+7.2 Find handle_event()
+
+Press:
+
+Ctrl + F
+
+Search for:
+
+handle_event
+
+You should find something similar to:
+
+def handle_event(self, event):
+
+Inside that function, look for references to:
+
+self.is_pull_locked
+
+and:
+
+self.last_key
+
+The README tells us the problem is in this part of the input-handling logic.
+
+7.3 Don't change anything yet
+
+I want to see the actual implementation in your repository, because the safest fix depends on exactly how the existing game is structured.
+
+Please copy the entire handle_event() function from:
+
+def handle_event(self, event):
+
+down to the end of that function.
+
+Paste it here.
+
+Don't paste the whole game_engine.py file.
+
+Once you send me that function, I'll explain exactly what is causing the deadlock and we'll make only the Task 1 change.
